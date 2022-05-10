@@ -2,7 +2,7 @@
 class DX12FrameWork
 {
 public:
-	void Init();
+	void Init(const WindowInfo& info);
 	void Update();
 };
 
