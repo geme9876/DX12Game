@@ -100,6 +100,8 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -119,6 +121,8 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -139,6 +143,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir)3rd\DirectX-Headers\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -158,6 +164,8 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -169,28 +177,37 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CommandQueue.h" />
-    <ClInclude Include="DescriptorHeap.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DX12Engine.h" />
     <ClInclude Include="DX12EnginePch.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RootSignature.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommandQueue.cpp" />
-    <ClCompile Include="DescriptorHeap.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DX12Engine.cpp" />
     <ClCompile Include="DX12EnginePch.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RootSignature.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="SwapChain.cpp" />
+    <ClCompile Include="Vertex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DrawTriangle.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

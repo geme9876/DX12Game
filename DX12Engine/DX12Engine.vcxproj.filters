@@ -13,6 +13,9 @@
     <Filter Include="3rd">
       <UniqueIdentifier>{9376e4fe-a40b-4ec1-901f-93acdec434d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{ed450ae5-1a84-4779-ad52-d725bc06e062}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -27,9 +30,6 @@
     <ClInclude Include="DX12Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DescriptorHeap.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Device.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -37,6 +37,18 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
+      <Filter>Utills</Filter>
+    </ClInclude>
+    <ClInclude Include="RootSignature.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
       <Filter>Utills</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,9 +65,6 @@
     <ClCompile Include="DX12Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DescriptorHeap.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Device.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -65,5 +74,22 @@
     <ClCompile Include="Singleton.cpp">
       <Filter>Utills</Filter>
     </ClCompile>
+    <ClCompile Include="RootSignature.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Utills</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DrawTriangle.hlsli">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

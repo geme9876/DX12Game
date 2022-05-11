@@ -34,9 +34,6 @@ using namespace Microsoft::WRL;
 constexpr __int32 SWAP_CHAIN_BUFFER_COUNT = 2;
 
 
-//Utills
-#include "Singleton.h"
-
 using int8 = __int8;
 using int16 = __int16;
 using int32 = __int32;
@@ -60,5 +57,8 @@ struct WindowInfo
 
 
 
+//Utills
+#include "Singleton.h"
+#include "Vertex.h"
 
 void HelloEngine();

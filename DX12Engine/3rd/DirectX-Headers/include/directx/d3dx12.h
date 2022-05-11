@@ -4,7 +4,7 @@
 // Licensed under the MIT License (MIT).
 //
 //*********************************************************
-
+#pragma warning(disable:26812)
 #ifndef __D3DX12_H__
 #define __D3DX12_H__
 

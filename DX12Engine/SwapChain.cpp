@@ -1,9 +1,47 @@
 #include "pch.h"
 #include "SwapChain.h"
 
-void SwapChain::Init(const WindowInfo& info, ComPtr<IDXGIFactory> dxgi, ComPtr<ID3D12CommandQueue> cmdQueue)
+void SwapChain::Init(const WindowInfo& info, ComPtr<ID3D12Device> device, ComPtr<IDXGIFactory> dxgi,  ComPtr<ID3D12CommandQueue> cmdQueue)
 {
 	// 이전에 만든 정보 날린다
+
+	CreateSwapChain(info, dxgi, cmdQueue);
+	CreateRTV(device);
+
+}
+
+void SwapChain::CreateRTV(ComPtr<ID3D12Device> device)
+{
+	// Descriptor (DX12) = View (~DX11)
+	// [서술자 힙]으로 RTV 생성
+	// DX11의 RTV(RenderTargetView), DSV(DepthStencilView), 
+	// CBV(ConstantBufferView), SRV(ShaderResourceView), UAV(UnorderedAccessView)를 전부!
+	//렌더타겟 뷰의 크기를 지정
+	int32 _rtvHeapSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+
+	D3D12_DESCRIPTOR_HEAP_DESC rtvDesc;
+	rtvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvDesc.NumDescriptors = SWAP_CHAIN_BUFFER_COUNT;
+	rtvDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	rtvDesc.NodeMask = 0;
+
+	// 같은 종류의 데이터끼리 배열로 관리
+	// RTV 목록 : [ ] [ ]
+	device->CreateDescriptorHeap(&rtvDesc, IID_PPV_ARGS(&_rtvHeap));
+
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHeapBegin = _rtvHeap->GetCPUDescriptorHandleForHeapStart();
+
+	for (int i = 0; i < SWAP_CHAIN_BUFFER_COUNT; i++)
+	{
+		//다음 렌더타겟힙 주소로 이동
+		_rtvHandle[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHeapBegin, i * _rtvHeapSize);
+		device->CreateRenderTargetView(_rtvBuffer[i].Get(), nullptr, _rtvHandle[i]);
+	}
+}
+
+void SwapChain::CreateSwapChain(const WindowInfo& info, ComPtr<IDXGIFactory> dxgi, ComPtr<ID3D12CommandQueue> cmdQueue)
+{
 	_swapChain.Reset();
 
 	DXGI_SWAP_CHAIN_DESC sd;
@@ -27,9 +65,12 @@ void SwapChain::Init(const WindowInfo& info, ComPtr<IDXGIFactory> dxgi, ComPtr<I
 
 	for (int32 i = 0; i < SWAP_CHAIN_BUFFER_COUNT; i++)
 	{
-		_swapChain->GetBuffer(i, IID_PPV_ARGS(&_renderTargets[i]));
+		_swapChain->GetBuffer(i, IID_PPV_ARGS(&_rtvBuffer[i]));
 	}
 }
+
+
+
 
 void SwapChain::Present()
 {
@@ -40,3 +81,4 @@ void SwapChain::SwapIndex()
 {
 	_backBufferIndex = (_backBufferIndex + 1) % SWAP_CHAIN_BUFFER_COUNT;
 }
+

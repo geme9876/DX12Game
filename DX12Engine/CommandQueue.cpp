@@ -1,17 +1,14 @@
 #include "pch.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
-#include "DescriptorHeap.h"
-
 CommandQueue::~CommandQueue()
 {
 	::CloseHandle(_fenceEvent);
 }
 
-void CommandQueue::Init(ComPtr<ID3D12Device> device, std::shared_ptr<SwapChain> swapChain, std::shared_ptr<DescriptorHeap> descriptorHeap)
+void CommandQueue::Init(ComPtr<ID3D12Device> device, std::shared_ptr<SwapChain> swapChain)
 {
 	_swapChain = swapChain;
-	_descHeap = descriptorHeap;
 
 	D3D12_COMMAND_QUEUE_DESC queueDesc = {};
 	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
@@ -72,7 +69,7 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 	_cmdList->RSSetScissorRects(1, rect);
 
 	// 랜더타겟에 그린다
-	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _descHeap->GetBackBufferView();
+	D3D12_CPU_DESCRIPTOR_HANDLE backBufferView = _swapChain->GetBackRTV();
 	_cmdList->ClearRenderTargetView(backBufferView, Colors::LightSteelBlue, 0, nullptr);
 	_cmdList->OMSetRenderTargets(1, &backBufferView, FALSE, nullptr);
 }

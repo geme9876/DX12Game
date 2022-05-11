@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "DX12Engine.h"
-#include "Device.h"
-#include "CommandQueue.h"
-#include "SwapChain.h"
-#include "DescriptorHeap.h"
+
 
 void DX12Engine::Init(const WindowInfo& info)
 {
@@ -17,13 +14,12 @@ void DX12Engine::Init(const WindowInfo& info)
 	_device				= std::make_shared<Device>();
 	_commandQueue		= std::make_shared<CommandQueue>();
 	_swapChain			= std::make_shared<SwapChain>();
-	_descriptorHeap		= std::make_shared<DescriptorHeap>();
+	_rootSignature		= std::make_shared<RootSignature>();
 
 	_device->Init();
-	_commandQueue->Init(_device->GetDevice(),_swapChain,_descriptorHeap);
-	_swapChain->Init(info, _device->GetDXGI(), _commandQueue->GetCmdQueue());
-	_descriptorHeap->Init(_device->GetDevice(), _swapChain);
-
+	_commandQueue->Init(_device->GetDevice(),_swapChain);
+	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _commandQueue->GetCmdQueue());
+	_rootSignature->Init(_device->GetDevice());
 }
 
 void DX12Engine::Render()
