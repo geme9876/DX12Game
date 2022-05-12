@@ -2,13 +2,13 @@
 class Shader
 {
 public:
-	void Init(const std::wstring& path);
+	HRESULT Init(const std::wstring& path);
 	void Update();
 
 private:
-	void CreateShader(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob, D3D12_SHADER_BYTECODE& shaderByteCode);
-	void CreateVertexShader(const std::wstring& path, const std::string& name, const std::string& version);
-	void CreatePixelShader(const std::wstring& path, const std::string& name, const std::string& version);
+	HRESULT CreateShader(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob, D3D12_SHADER_BYTECODE& shaderByteCode);
+	HRESULT CreateVertexShader(const std::wstring& path, const std::string& name, const std::string& version);
+	HRESULT CreatePixelShader(const std::wstring& path, const std::string& name, const std::string& version);
 
 private:
 	ComPtr<ID3DBlob>					_vsBlob;

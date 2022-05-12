@@ -8,10 +8,12 @@ void Mesh::Init(std::vector<Vertex>& vec)
 	uint32 bufferSize = _vertexCount * sizeof(Vertex);
 
 	//업로드 타입으로 생성 , 본래라면 DEFAUT를 별개로 생성하여 업로드는 복사 용도로만 사용 해야함
+	//보통은 normal 타입으로 생성하고, 업로드만 전담할때는 업로드 타입이 효율적
 	D3D12_HEAP_PROPERTIES heapProperty = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	D3D12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
 
 	//GPU에 리소스 버퍼 할당
+	//디바이스를 통해 즉시 전달 됨
 	DEVICE->CreateCommittedResource(
 		&heapProperty,
 		D3D12_HEAP_FLAG_NONE,
@@ -38,6 +40,15 @@ void Mesh::Render()
 {
 	CMDLIST->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	CMDLIST->IASetVertexBuffers(0, 1, &_vertexBufferView); // Slot: (0~15)
+
+	// 1) 버퍼에 데이터 셋팅
+	// 2) 버퍼의 주소를 레지스터에 전송
+	// 장치를 통한 전달과는 다르게 레지스터에 지연 전달 됨
+	CONSTANTBUFFER->PushData(0, &_transform, sizeof(_transform));
+	CONSTANTBUFFER->PushData(1, &_transform, sizeof(_transform));
+
+	//CMDLIST->SetComputeRootConstantBufferView(0, );
+
 	CMDLIST->DrawInstanced(_vertexCount, 1, 0, 0);
 
 	//커맨드큐에 커맨드 밀어넣음 (커맨드큐의 RenderEnd에서 실행됨)

@@ -15,11 +15,13 @@ void DX12Engine::Init(const WindowInfo& info)
 	_commandQueue		= std::make_shared<CommandQueue>();
 	_swapChain			= std::make_shared<SwapChain>();
 	_rootSignature		= std::make_shared<RootSignature>();
+	_constantBuffer		= std::make_shared<ConstantBuffer>();
 
 	_device->Init();
 	_commandQueue->Init(_device->GetDevice(),_swapChain);
 	_swapChain->Init(info, _device->GetDevice(), _device->GetDXGI(), _commandQueue->GetCmdQueue());
 	_rootSignature->Init(_device->GetDevice());
+	_constantBuffer->Init(sizeof(Transform), 256);
 }
 
 void DX12Engine::Render()

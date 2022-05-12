@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CommandQueue.h"
 #include "SwapChain.h"
+#include "DX12Engine.h"
 CommandQueue::~CommandQueue()
 {
 	::CloseHandle(_fenceEvent);
@@ -60,6 +61,9 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 		_swapChain->GetCurrentBackBufferResource().Get(),	// 그릴곳
 		D3D12_RESOURCE_STATE_PRESENT,						// 화면 출력
 		D3D12_RESOURCE_STATE_RENDER_TARGET);				// 외주 결과물
+
+	CMDLIST->SetGraphicsRootSignature(ROOTSIGNATURE.Get());
+	CONSTANTBUFFER->Clear();
 
 	//텍스쳐 락 잡음
 	_cmdList->ResourceBarrier(1, &barrier);

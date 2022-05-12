@@ -51,6 +51,9 @@
     <ClInclude Include="Vertex.h">
       <Filter>Utills</Filter>
     </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -86,9 +89,12 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Utills</Filter>
     </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DrawTriangle.hlsli">
+    <None Include="..\Resource\Shader\DrawTriangle.hlsli">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>

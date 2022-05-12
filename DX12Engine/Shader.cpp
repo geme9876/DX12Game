@@ -2,10 +2,21 @@
 #include "Shader.h"
 #include "DX12Engine.h"
 
-void Shader::Init(const std::wstring& path)
+HRESULT Shader::Init(const std::wstring& path)
 {
-	CreateVertexShader(path, "VS_Main", "vs_5_0");
-	CreatePixelShader(path, "PS_Main", "ps_5_0");
+	//예외 던져서 처리해야할듯?
+
+	HRESULT hr;
+	hr = CreateVertexShader(path, "VS_Main", "vs_5_0");
+	if (FAILED(hr))
+	{
+		return hr;
+	}
+	hr = CreatePixelShader(path, "PS_Main", "ps_5_0");
+	if (FAILED(hr))
+	{
+		return hr;
+	}
 
 	D3D12_INPUT_ELEMENT_DESC desc[] =
 	{
@@ -28,8 +39,9 @@ void Shader::Init(const std::wstring& path)
 
 
 	//TODO : try catch로 디바이스 생성 예외처리 해보자
-	HRESULT result = DEVICE->CreateGraphicsPipelineState(&_pipelineDesc, IID_PPV_ARGS(&_pipelineState));
-	
+	hr = DEVICE->CreateGraphicsPipelineState(&_pipelineDesc, IID_PPV_ARGS(&_pipelineState));
+
+	return hr;
 }
 
 void Shader::Update()
@@ -37,28 +49,35 @@ void Shader::Update()
 	CMDLIST->SetPipelineState(_pipelineState.Get());
 }
 
-void Shader::CreateShader(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob, D3D12_SHADER_BYTECODE& shaderByteCode)
+HRESULT Shader::CreateShader(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob, D3D12_SHADER_BYTECODE& shaderByteCode)
 {
 	uint32 compileFlag = 0;
 #ifdef _DEBUG
 	compileFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-	if (FAILED(::D3DCompileFromFile(path.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-		, name.c_str(), version.c_str(), compileFlag, 0, &blob, &_errBlob)))
+	HRESULT hr = ::D3DCompileFromFile(path.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+		, name.c_str(), version.c_str(), compileFlag, 0, &blob, &_errBlob);
+	if (FAILED(hr))
 	{
+		if (_errBlob)
+		{
+			OutputDebugStringA((char*)_errBlob->GetBufferPointer());
+		}
 		::MessageBoxA(nullptr, "Shader Create Failed !", nullptr, MB_OK);
+		return hr;
 	}
 
 	shaderByteCode = { blob->GetBufferPointer(), blob->GetBufferSize() };
+	return hr;
 }
 
-void Shader::CreateVertexShader(const std::wstring& path, const std::string& name, const std::string& version)
+HRESULT Shader::CreateVertexShader(const std::wstring& path, const std::string& name, const std::string& version)
 {
-	CreateShader(path, name, version, _vsBlob, _pipelineDesc.VS);
+	return CreateShader(path, name, version, _vsBlob, _pipelineDesc.VS);
 }
 
-void Shader::CreatePixelShader(const std::wstring& path, const std::string& name, const std::string& version)
+HRESULT Shader::CreatePixelShader(const std::wstring& path, const std::string& name, const std::string& version)
 {
-	CreateShader(path, name, version, _psBlob, _pipelineDesc.PS);
+	return CreateShader(path, name, version, _psBlob, _pipelineDesc.PS);
 }
