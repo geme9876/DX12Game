@@ -44,10 +44,17 @@ void Mesh::Render()
 	// 1) 버퍼에 데이터 셋팅
 	// 2) 버퍼의 주소를 레지스터에 전송
 	// 장치를 통한 전달과는 다르게 레지스터에 지연 전달 됨
-	CONSTANTBUFFER->PushData(0, &_transform, sizeof(_transform));
-	CONSTANTBUFFER->PushData(1, &_transform, sizeof(_transform));
+	{
+		D3D12_CPU_DESCRIPTOR_HANDLE handle = CONSTANTBUFFER->PushData(0, &_transform, sizeof(_transform));
+		TABLEDESCHEAP->SetCBV(handle, CBV_REGISTER::b0);
+	}
 
-	//CMDLIST->SetComputeRootConstantBufferView(0, );
+	{
+		D3D12_CPU_DESCRIPTOR_HANDLE handle = CONSTANTBUFFER->PushData(0, &_transform, sizeof(_transform));
+		TABLEDESCHEAP->SetCBV(handle, CBV_REGISTER::b1);
+	}
+	
+	TABLEDESCHEAP->CommitTable();
 
 	CMDLIST->DrawInstanced(_vertexCount, 1, 0, 0);
 

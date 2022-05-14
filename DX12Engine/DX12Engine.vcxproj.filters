@@ -54,6 +54,9 @@
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="TableDescriptorHeap.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -90,6 +93,9 @@
       <Filter>Utills</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TableDescriptorHeap.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

@@ -31,9 +31,6 @@ using namespace DirectX;
 using namespace DirectX::PackedVector;
 using namespace Microsoft::WRL;
 
-constexpr __int32 SWAP_CHAIN_BUFFER_COUNT = 2;
-
-
 using int8 = __int8;
 using int16 = __int16;
 using int32 = __int32;
@@ -46,6 +43,23 @@ using Vec2 = XMFLOAT2;
 using Vec3 = XMFLOAT3;
 using Vec4 = XMFLOAT4;
 using Matrix = XMMATRIX;
+
+enum class CBV_REGISTER
+{
+	b0,
+	b1,
+	b2,
+	b3,
+	b4,
+	COUNT,
+};
+
+enum
+{
+	SWAP_CHAIN_BUFFER_COUNT = 2,
+	CBV_REGISTER_COUNT = CBV_REGISTER::COUNT,
+	REGISTER_COUNT = CBV_REGISTER::COUNT,
+};
 
 struct WindowInfo
 {

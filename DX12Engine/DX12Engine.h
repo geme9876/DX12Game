@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "ConstantBuffer.h"
+#include "TableDescriptorHeap.h"
 
 class DX12Engine : public Singleton<DX12Engine>
 {
@@ -23,6 +24,8 @@ public:
 	std::shared_ptr<SwapChain>		GetSwapChain()		{ return _swapChain; };
 	std::shared_ptr<RootSignature>	GetRootSignature()	{ return _rootSignature; };
 	std::shared_ptr<ConstantBuffer>	GetConstantBuffer()	{ return _constantBuffer; };
+	std::shared_ptr<TableDescriptorHeap>	GetTableDescHeap() { return _tableDescHeap; };
+
 
 private:
 	WindowInfo		_window;
@@ -34,13 +37,15 @@ private:
 	std::shared_ptr<SwapChain>		_swapChain;
 	std::shared_ptr<RootSignature>	_rootSignature;
 	std::shared_ptr<ConstantBuffer>	_constantBuffer;
-
+	std::shared_ptr<TableDescriptorHeap>	_tableDescHeap;
 };
 
 #define DEVICE			DX12Engine::This().GetDevice()->GetDevice()
 #define CMDLIST			DX12Engine::This().GetCmdQueue()->GetCmdList()
 #define ROOTSIGNATURE	DX12Engine::This().GetRootSignature()->GetSignature()
 #define CONSTANTBUFFER	DX12Engine::This().GetConstantBuffer()
+#define TABLEDESCHEAP	DX12Engine::This().GetTableDescHeap()
+
 
 
 

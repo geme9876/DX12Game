@@ -64,6 +64,14 @@ void CommandQueue::RenderBegin(const D3D12_VIEWPORT* vp, const D3D12_RECT* rect)
 
 	CMDLIST->SetGraphicsRootSignature(ROOTSIGNATURE.Get());
 	CONSTANTBUFFER->Clear();
+	TABLEDESCHEAP->Clear();
+
+	ID3D12DescriptorHeap* descHeap = TABLEDESCHEAP->GetDescriptorHeap().Get();
+	//이 함수는 굉장히 무겁기 때문에 여러번 호출되면 안됨
+
+	//CMDLIST->SetGraphicsRootDescriptorTable(0, handle) 해당 구문이 정상적으로 동작하려면 반드시 선행되어야한다.
+	//GPU에 뷰가 셋팅이 되어야지, 뷰를 통해 접근할수있기네 너무 당연하다...
+	_cmdList->SetDescriptorHeaps(1, &descHeap);
 
 	//텍스쳐 락 잡음
 	_cmdList->ResourceBarrier(1, &barrier);
